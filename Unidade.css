@@ -1,0 +1,26 @@
+h1{
+    color: red;
+    text-align: center;
+    font-size: 40px;
+}
+.paragrafo{
+    font-size: 18px;
+    color: blueviolet;
+    padding: 10px;
+    border: 1px solid red;
+}
+#Caixa{
+    background-color: yellow;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.botao{
+    background-color: orange;
+    color: white;
+    padding: 10px 20px;
+    border-radius:10px;
+}
+.botao:hover{ 
+    background-color: darkgoldenrod;
+}
