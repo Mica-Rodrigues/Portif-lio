@@ -1,0 +1,70 @@
+def obter_taxa_de_cambio_manual():
+    while True:
+        try:
+            taxa = float(input("Digite a cotação atual do dólar (1 USD em BRL): "))
+            if taxa <= 0:
+                print("A cotação deve ser maior que zero. Tente novamente.")
+            else:
+                return taxa
+        except ValueError:
+            print("Entrada inválida. Por favor, digite um número válido.")
+
+def converter_para_dolar(valor, taxa_de_cambio):
+    if valor < 0:
+        raise ValueError("O valor deve ser positivo.")
+    return valor * taxa_de_cambio
+
+def converter_para_real(valor, taxa_de_cambio):
+    if valor < 0:
+        raise ValueError("O valor deve ser positivo.")
+    return valor / taxa_de_cambio
+
+def entrada_valida():
+    while True:
+        try:
+            valor = float(input("Digite o valor: "))
+            if valor < 0:
+                print("O valor não pode ser negativo. Tente novamente.")
+            else:
+                return valor
+        except ValueError:
+            print("Entrada inválida. Por favor, digite um número válido.")
+
+def exibir_resultado(valor_original, valor_convertido, tipo_conversion):
+    if tipo_conversion == "real_para_dolar":
+        print(f"\nR$ {valor_original:,.2f} equivale a aproximadamente US$ {valor_convertido:,.2f}.")
+    elif tipo_conversion == "dolar_para_real":
+        print(f"\nUS$ {valor_original:,.2f} equivale a aproximadamente R$ {valor_convertido:,.2f}.")
+
+def main():
+    print("Conversor de Moeda")
+
+    # Escolher o tipo de conversão
+    tipo_conversion = ""
+    while tipo_conversion not in ["real_para_dolar", "dolar_para_real"]:
+        tipo_conversion = input("Você deseja converter:\n1. Real para Dólar\n2. Dólar para Real\nEscolha (1 ou 2): ").strip()
+        if tipo_conversion == "1":
+            tipo_conversion = "real_para_dolar"
+        elif tipo_conversion == "2":
+            tipo_conversion = "dolar_para_real"
+        else:
+            print("Opção inválida. Por favor, escolha 1 ou 2.")
+
+    # Obter a cotação
+    taxa_de_cambio = obter_taxa_de_cambio_manual()
+
+    # Entrada de valor
+    valor = entrada_valida()
+
+    # Realizar a conversão
+    try:
+        if tipo_conversion == "real_para_dolar":
+            valor_convertido = converter_para_dolar(valor, taxa_de_cambio)
+        elif tipo_conversion == "dolar_para_real":
+            valor_convertido = converter_para_real(valor, taxa_de_cambio)
+        exibir_resultado(valor, valor_convertido, tipo_conversion)
+    except ValueError as e:
+        print(f"Erro: {e}")
+
+if __name__ == "__main__":
+    main()

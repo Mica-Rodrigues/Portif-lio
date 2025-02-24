@@ -1,0 +1,94 @@
+import os
+
+# Função para carregar as tarefas de um arquivo
+def carregar_tarefas():
+    if os.path.exists("tarefas.txt"):
+        with open("tarefas.txt", "r") as f:
+            tarefas = [linha.strip() for linha in f.readlines()]
+    else:
+        tarefas = []
+    return tarefas
+
+# Função para salvar as tarefas em um arquivo
+def salvar_tarefas(tarefas):
+    with open("tarefas.txt", "w") as f:
+        for tarefa in tarefas:
+            f.write(tarefa + "\n")
+
+# Função para mostrar as tarefas na tela
+def mostrar_lista(tarefas):
+    if not tarefas:
+        print("\nA lista de tarefas está vazia.\n")
+    else:
+        print("\nLista de Tarefas:")
+        for i, tarefa in enumerate(tarefas, 1):
+            print(f"{i}. {tarefa}")
+        print()
+
+# Função para adicionar uma tarefa
+def adicionar_tarefa(tarefas):
+    tarefa = input("Digite a tarefa que deseja adicionar: ").strip()
+    if tarefa:
+        tarefas.append(tarefa)
+        salvar_tarefas(tarefas)
+        print(f"Tarefa '{tarefa}' adicionada com sucesso!\n")
+    else:
+        print("A tarefa não pode ser vazia.\n")
+
+# Função para remover uma tarefa
+def remover_tarefa(tarefas):
+    mostrar_lista(tarefas)
+    if tarefas:
+        try:
+            indice = int(input("Digite o número da tarefa que deseja remover: "))
+            if 1 <= indice <= len(tarefas):
+                tarefa_removida = tarefas.pop(indice - 1)
+                salvar_tarefas(tarefas)
+                print(f"Tarefa '{tarefa_removida}' removida com sucesso!\n")
+            else:
+                print("Índice inválido. Tente novamente.\n")
+        except ValueError:
+            print("Por favor, digite um número válido.\n")
+
+# Função para marcar uma tarefa como concluída
+def marcar_concluida(tarefas):
+    mostrar_lista(tarefas)
+    if tarefas:
+        try:
+            indice = int(input("Digite o número da tarefa que deseja marcar como concluída: "))
+            if 1 <= indice <= len(tarefas):
+                tarefas[indice - 1] = f"[Concluída] {tarefas[indice - 1]}"
+                salvar_tarefas(tarefas)
+                print(f"Tarefa marcada como concluída!\n")
+            else:
+                print("Índice inválido. Tente novamente.\n")
+        except ValueError:
+            print("Por favor, digite um número válido.\n")
+
+# Função para exibir o menu de opções
+def menu():
+    tarefas = carregar_tarefas()
+    while True:
+        print("1. Adicionar tarefa")
+        print("2. Remover tarefa")
+        print("3. Mostrar lista de tarefas")
+        print("4. Marcar tarefa como concluída")
+        print("5. Sair")
+        opcao = input("Escolha uma opção: ").strip()
+
+        if opcao == '1':
+            adicionar_tarefa(tarefas)
+        elif opcao == '2':
+            remover_tarefa(tarefas)
+        elif opcao == '3':
+            mostrar_lista(tarefas)
+        elif opcao == '4':
+            marcar_concluida(tarefas)
+        elif opcao == '5':
+            print("Saindo... Até logo!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.\n")
+
+if __name__ == "__main__":
+    menu()
