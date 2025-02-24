@@ -1,0 +1,98 @@
+import string
+from collections import Counter
+
+# Função para limpar o texto, removendo pontuação e convertendo para minúsculas
+def limpar_texto(texto):
+    texto = texto.lower()
+    texto = texto.translate(str.maketrans('', '', string.punctuation))
+    return texto
+
+# Função para contar o número de palavras no texto
+def contar_palavras(texto):
+    palavras = texto.split()
+    return len(palavras)
+
+# Função para contar o número de caracteres no texto
+def contar_caracteres(texto):
+    return len(texto)
+
+# Função para contar o número de frases no texto
+def contar_frases(texto):
+    # As frases são separadas por ponto, exclamação e interrogação.
+    frases = [f for f in texto.split('.') if f]
+    frases += [f for f in texto.split('!') if f]
+    frases += [f for f in texto.split('?') if f]
+    return len(frases)
+
+# Função para contar o número de parágrafos no texto
+def contar_paragrafos(texto):
+    paragrafos = texto.split("\n")
+    return len([p for p in paragrafos if p.strip()])
+
+# Função para contar a frequência das palavras
+def frequencia_palavras(texto):
+    palavras = limpar_texto(texto).split()
+    contagem = Counter(palavras)
+    return contagem
+
+# Função para identificar a palavra mais longa e a mais curta
+def palavras_extremas(texto):
+    palavras = limpar_texto(texto).split()
+    mais_longa = max(palavras, key=len)
+    mais_curta = min(palavras, key=len)
+    return mais_longa, mais_curta
+
+# Função para remover stopwords (exemplo de stopwords)
+def remover_stopwords(texto, stopwords):
+    palavras = limpar_texto(texto).split()
+    palavras_filtradas = [palavra for palavra in palavras if palavra not in stopwords]
+    return " ".join(palavras_filtradas)
+
+# Função para exibir o menu e capturar a escolha do usuário
+def menu():
+    stopwords = {"e", "a", "o", "de", "da", "do", "que", "em", "um", "para", "com", "não", "na", "no", "se", "nao", "dos", "das"}
+    print("Analisador de Texto\n")
+
+    texto = input("Digite ou cole o texto que deseja analisar:\n")
+
+    while True:
+        print("\nEscolha uma opção de análise:")
+        print("1. Contar o número de palavras")
+        print("2. Contar o número de caracteres")
+        print("3. Contar o número de frases")
+        print("4. Contar o número de parágrafos")
+        print("5. Contagem de frequência das palavras")
+        print("6. Identificar a palavra mais longa e a mais curta")
+        print("7. Remover stopwords")
+        print("8. Sair")
+
+        opcao = input("Escolha uma opção (1-8): ").strip()
+
+        if opcao == '1':
+            print(f"Número de palavras: {contar_palavras(texto)}")
+        elif opcao == '2':
+            print(f"Número de caracteres: {contar_caracteres(texto)}")
+        elif opcao == '3':
+            print(f"Número de frases: {contar_frases(texto)}")
+        elif opcao == '4':
+            print(f"Número de parágrafos: {contar_paragrafos(texto)}")
+        elif opcao == '5':
+            frequencia = frequencia_palavras(texto)
+            print("\nFrequência das palavras:")
+            for palavra, freq in frequencia.items():
+                print(f"{palavra}: {freq}")
+        elif opcao == '6':
+            mais_longa, mais_curta = palavras_extremas(texto)
+            print(f"Palavra mais longa: {mais_longa}")
+            print(f"Palavra mais curta: {mais_curta}")
+        elif opcao == '7':
+            texto_filtrado = remover_stopwords(texto, stopwords)
+            print(f"\nTexto sem stopwords: \n{texto_filtrado}")
+        elif opcao == '8':
+            print("Saindo... Até logo!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+if __name__ == "__main__":
+    menu()
